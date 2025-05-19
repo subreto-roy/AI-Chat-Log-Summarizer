@@ -9,11 +9,12 @@ for line in lines:
         chat["User"].append(line.replace("User:", "").strip())
     elif line.startswith("AI:"):
         chat["AI"].append(line.replace("AI:", "").strip())
-        
-print("User Messages:")
-for msg in chat["User"]:
-    print("-", msg)
 
-print("\nAI Messages:")
-for msg in chat["AI"]:
-    print("-", msg)
+total_messages = len(chat["User"]) + len(chat["AI"])
+user_messages = len(chat["User"])
+ai_messages = len(chat["AI"])
+
+print("\n--- Message Count Summary ---")
+print(f"Total Messages: {total_messages}")
+print(f"User Messages: {user_messages}")
+print(f"AI Messages: {ai_messages}")

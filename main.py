@@ -1,11 +1,12 @@
+import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import defaultdict
-
 
 stop_words = [
     "the", "is", "and", "a", "an", "to", "of", "in", "for", "on", 
     "you", "can", "about", "it", "its", "i", "we", "our", "me", "us"
 ]
+
 topic_keywords = {
             'python programming': ['python', 'code', 'programming', 'script', 'syntax'],
             'machine learning': ['machine learning', 'ml', 'ai', 'model', 'training'],
@@ -66,17 +67,22 @@ topic_keywords = {
             'news & updates': ['news', 'update', 'event', 'announcement', 'trend']
 }
 
-#File load
-with open("chat.txt", "r", encoding="utf-8") as file:
-    lines = file.readlines()
+folder_path = "chat_logs"  
 
 chat = {"User": [], "AI": []}
-for line in lines:
-    line = line.strip()
-    if line.startswith("User:"):
-        chat["User"].append(line.replace("User:", "").strip())
-    elif line.startswith("AI:"):
-        chat["AI"].append(line.replace("AI:", "").strip())
+
+
+for filename in os.listdir(folder_path):
+    if filename.endswith(".txt"):  
+        file_path = os.path.join(folder_path, filename)
+        with open(file_path, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+            for line in lines:
+                line = line.strip()
+                if line.startswith("User:"):
+                    chat["User"].append(line.replace("User:", "").strip())
+                elif line.startswith("AI:"):
+                    chat["AI"].append(line.replace("AI:", "").strip())
 
 documents = chat["User"] + chat["AI"]
 total_messages = len(documents)
@@ -98,11 +104,10 @@ for topic, keywords in topic_keywords.items():
             matched_topics[topic] += 1
 
 top_topic = sorted(matched_topics.items(), key=lambda x: x[1], reverse=True)
-if top_topic:
+if top_topic and top_topic[0][1] > 0:
     summary_line = f"The user asked mainly about {top_topic[0][0]}."
 else:
     summary_line = "The conversation was general in nature."
-
 
 print("Summary:")
 print(f"- The conversation had {total_messages} exchanges.")

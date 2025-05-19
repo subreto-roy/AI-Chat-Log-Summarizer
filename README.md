@@ -27,10 +27,7 @@ The summarizer can handle multiple chat logs stored as text files in a folder, m
    ```bash
    pip install scikit-learn
    
-3. Active virtual Environment:
-
-
-4. Run the python File:
+3. Run the python File:
 
    ```bash
    py main.py

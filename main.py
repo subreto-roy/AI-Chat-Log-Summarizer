@@ -1,7 +1,6 @@
 import re
 from collections import Counter
 
-
 stop_words = {
     "the", "is", "and", "a", "an", "to", "of", "in", "for", "on", "you", "can", "about", "it", "its"
 }
@@ -19,18 +18,11 @@ for line in lines:
         chat["AI"].append(line.replace("AI:", "").strip())
 
 
-# total_messages = len(chat["User"]) + len(chat["AI"])
-# user_messages = len(chat["User"])
-# ai_messages = len(chat["AI"])   
-
-# print("\n--- Message Count Summary ---")
-# print(f"Total Messages: {total_messages}")
-# print(f"User Messages: {user_messages}")
-# print(f"AI Messages: {ai_messages}")
+total_messages = len(chat["User"]) + len(chat["AI"])
 
 
-all_text = " ".join(chat["User"] + chat["AI"]).lower()  
-words = re.findall(r'\b\w+\b', all_text)  
+all_text = " ".join(chat["User"] + chat["AI"]).lower()
+words = re.findall(r'\b\w+\b', all_text)
 
 
 filtered_words = [word for word in words if word not in stop_words]
@@ -38,4 +30,18 @@ word_counts = Counter(filtered_words)
 top_5 = word_counts.most_common(5)
 
 top_words = [word for word, count in top_5]
-print("\nMost common words:", ", ".join(top_words))
+
+
+if "python" in top_words:
+    topic_summary = "The user asked mainly about Python and its uses."
+elif "data" in top_words or "analysis" in top_words:
+    topic_summary = "The conversation focused on data analysis and technical concepts."
+else:
+    topic_summary = "The conversation was general in nature."
+
+
+print("\nSummary:")
+print(f"- The conversation had {total_messages} exchanges.")
+print(f"- {topic_summary}")
+print(f"- Most common keywords: {', '.join(top_words)}.")
+

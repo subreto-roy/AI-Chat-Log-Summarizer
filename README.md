@@ -1,3 +1,4 @@
+![test](https://github.com/user-attachments/assets/8060def3-7ac2-4db7-9dd0-e53f1ba079a6)
 # Chat Log Summarizer
 
 ## Project Overview
